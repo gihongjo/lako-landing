@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Will-Be | 학생 행동 기록 앱</title>
+        <meta name="description" content="교사와 치료사를 위한 학생 행동 기록 전문 앱. 실시간으로 기록하고, 함께 분석하세요." />
+
+        <link rel="stylesheet" href="./css/tailwind-build.css" />
+        <link rel="stylesheet" href="./css/index.css" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css"
+            integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head>
+
+    <body class="tw-flex tw-min-h-[100vh] tw-flex-col">
+
+        <!-- ===== 서비스 준비중 모달 ===== -->
+        <div id="coming-soon-modal"
+            onclick="if(event.target===this) closeModal()"
+            style="display:none; position:fixed; inset:0; z-index:200; background:rgba(0,0,0,0.75); justify-content:center; align-items:center;">
+            <div style="background:var(--bg-card); border:1px solid rgba(255,255,255,0.1); border-radius:20px; padding:40px; max-width:420px; width:90%; text-align:center; display:flex; flex-direction:column; gap:16px; animation:fadeInUp 0.3s ease">
+                <div style="font-size:48px">⏳</div>
+                <h3 style="color:white; font-size:1.5rem; font-weight:700; margin:0">서비스 준비 중입니다</h3>
+                <p style="color:var(--text-secondary); line-height:1.7; margin:0">
+                    Will-Be는 현재 서비스 출시를 준비하고 있습니다.<br/>
+                    법적 검토 완료 후 App Store 및 Google Play에<br/>
+                    정식 배포될 예정입니다.
+                </p>
+                <div style="background:rgba(123,111,255,0.1); border:1px solid rgba(123,111,255,0.3); border-radius:12px; padding:12px; color:var(--accent-light); font-size:0.9rem;">
+                    📋 현재 법적 검토 단계 진행 중
+                </div>
+                <button onclick="closeModal()" class="btn-primary" style="justify-content:center; margin-top:8px">확인</button>
+            </div>
+        </div>
+
+        <!-- ===== HEADER ===== -->
+        <header class="tw-fixed tw-top-0 tw-z-20 tw-flex tw-h-[64px] tw-w-full tw-px-[5%] max-lg:tw-px-4 lg:tw-justify-around tw-place-items-center">
+            <a class="tw-flex tw-place-items-center tw-gap-2 tw-shrink-0" href="#">
+                <div style="width:36px;height:36px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                    <span style="color:white;font-weight:700;font-size:14px">W</span>
+                </div>
+                <span style="color:white;font-weight:600;font-size:1.1rem;white-space:nowrap">Will-Be</span>
+            </a>
+            <div class="collapsible-header animated-collapse" id="collapsed-header-items">
+                <div class="tw-flex tw-h-full tw-w-max tw-gap-5 tw-text-base
+                            max-lg:tw-mt-[30px] max-lg:tw-flex-col max-lg:tw-place-items-end
+                            max-lg:tw-gap-5 lg:tw-mx-auto lg:tw-place-items-center">
+                    <a class="header-links" href="#for-who">대상</a>
+                    <a class="header-links" href="#features">기능</a>
+                    <a class="header-links" href="#abc">ABC 모델</a>
+                    <a class="header-links" href="#about">소개</a>
+                </div>
+                <div class="tw-mx-4 tw-flex tw-place-items-center tw-gap-3 max-md:tw-w-full max-md:tw-flex-col max-md:tw-place-content-center">
+                    <a href="https://github.com/gihongjo" target="_blank" rel="noopener"
+                        style="display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;font-size:0.9rem;color:white;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);text-decoration:none;white-space:nowrap">
+                        <i class="bi bi-github"></i><span>GitHub</span>
+                    </a>
+                </div>
+            </div>
+            <button class="bi bi-list tw-absolute tw-right-3 tw-top-4 tw-z-50 tw-text-3xl tw-text-white lg:tw-hidden"
+                onclick="toggleHeader()" aria-label="menu" id="collapse-btn"></button>
+        </header>
+
+        <!-- ===== HERO ===== -->
+        <section style="position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;padding-top:64px">
+            <div class="hero-glow" style="top:-150px;left:-150px"></div>
+            <div class="hero-glow" style="bottom:-150px;right:-100px"></div>
+            <div style="display:flex;align-items:center;justify-content:center;gap:80px;padding:5% 8%;width:100%;flex-wrap:wrap">
+                <div class="reveal-hero-text" style="display:flex;flex-direction:column;gap:24px;max-width:480px;flex:1;min-width:280px">
+                    <div class="badge-tag">교사 · 치료사를 위한 행동 기록 앱</div>
+                    <h1 style="color:white;font-size:clamp(2.2rem,5vw,3.8rem);font-weight:800;line-height:1.2;margin:0">
+                        학생 행동,<br/>
+                        <span style="color:var(--accent-light)">실시간</span>으로<br/>
+                        기록하다
+                    </h1>
+                    <p style="color:var(--text-secondary);font-size:1.1rem;line-height:1.7;margin:0;max-width:420px">
+                        특수교육 현장과 ABA 치료 세팅에서 여러 선생님이
+                        동시에 학생 행동을 기록하고 분석할 수 있는 전문 앱입니다.
+                    </p>
+                    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+                        <button onclick="openModal()" class="btn-primary"><i class="bi bi-apple"></i>App Store</button>
+                        <button onclick="openModal()" class="btn-outline"><i class="bi bi-google-play"></i>Google Play</button>
+                    </div>
+                </div>
+                <div class="reveal-hero-img" style="display:flex;justify-content:center;align-items:center;flex-shrink:0">
+                    <div class="phone-frame" style="width:280px;height:570px;box-shadow:0 0 0 6px #1A1F30,0 40px 100px rgba(0,0,0,0.7),0 0 80px var(--accent-glow)">
+                        <img src="./assets/images/screen-main.jpeg" alt="Will-Be 아동관리 화면" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 누구를 위한 앱인가 ===== -->
+        <section id="for-who" class="feature-section" style="background:var(--bg-secondary)">
+            <div class="reveal-up" style="display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:56px;text-align:center">
+                <div class="section-label">대상</div>
+                <div class="section-divider"></div>
+                <h2 style="color:white;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;margin:0">
+                    이런 분들을 위해 만들었습니다
+                </h2>
+                <p style="color:var(--text-secondary);max-width:520px;line-height:1.7;margin:0">
+                    특수교육과 행동치료 현장에서 학생 행동 데이터가<br/>
+                    체계적으로 수집되지 않아 분석이 어렵다는 문제에서 시작했습니다.
+                </p>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;width:100%;max-width:900px" class="for-who-grid">
+                <div class="reveal-up" style="background:var(--bg-card);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:32px 24px;display:flex;flex-direction:column;gap:16px">
+                    <div style="font-size:2.5rem">👩‍🏫</div>
+                    <h3 style="color:white;font-size:1.15rem;font-weight:700;margin:0">특수교사</h3>
+                    <p style="color:var(--text-secondary);line-height:1.65;font-size:0.95rem;margin:0">
+                        수업 중 발생하는 문제행동을 즉각 기록하고,
+                        일과 중 패턴을 파악해 개별화 교육 계획(IEP)에 반영합니다.
+                    </p>
+                </div>
+                <div class="reveal-up" style="background:var(--bg-card);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:32px 24px;display:flex;flex-direction:column;gap:16px">
+                    <div style="font-size:2.5rem">🧑‍⚕️</div>
+                    <h3 style="color:white;font-size:1.15rem;font-weight:700;margin:0">ABA 치료사</h3>
+                    <p style="color:var(--text-secondary);line-height:1.65;font-size:0.95rem;margin:0">
+                        응용행동분석(ABA) 세팅에서 행동의 선행사건·행동·후속결과를
+                        체계적으로 수집하고 중재 효과를 수치로 확인합니다.
+                    </p>
+                </div>
+                <div class="reveal-up" style="background:var(--bg-card);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:32px 24px;display:flex;flex-direction:column;gap:16px">
+                    <div style="font-size:2.5rem">🤝</div>
+                    <h3 style="color:white;font-size:1.15rem;font-weight:700;margin:0">보조인력 · 도우미</h3>
+                    <p style="color:var(--text-secondary);line-height:1.65;font-size:0.95rem;margin:0">
+                        담당 교사와 같은 학생을 동시에 관찰하며 기록합니다.
+                        실시간 동기화로 팀 전체가 같은 데이터를 공유합니다.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== FEATURE 1: 학생 관리 ===== -->
+        <section id="features" class="feature-section">
+            <div class="feature-row">
+                <div class="reveal-up" style="display:flex;justify-content:center">
+                    <div class="phone-frame"><img src="./assets/images/screen-detail.jpeg" alt="학생 상세 화면" /></div>
+                </div>
+                <div class="reveal-up feature-text">
+                    <div class="section-label">학생 관리</div>
+                    <div class="section-divider"></div>
+                    <h2 class="feature-title">학생별 행동 이력,<br/>한눈에</h2>
+                    <p class="feature-desc">
+                        학생 프로필에 문제행동 목록을 등록해두면 기록할 때마다
+                        자동으로 누적됩니다. 담당 선생님이 지정되어 있어
+                        누가 언제 어떤 행동을 기록했는지 투명하게 확인할 수 있습니다.
+                    </p>
+                    <div class="check-list">
+                        <div class="check-item"><i class="bi bi-check-circle-fill check-icon"></i><span>학생별 담당 교사 지정 및 관리</span></div>
+                        <div class="check-item"><i class="bi bi-check-circle-fill check-icon"></i><span>문제행동 목록 개별 등록</span></div>
+                        <div class="check-item"><i class="bi bi-check-circle-fill check-icon"></i><span>기록 완료 여부 실시간 표시</span></div>
+                        <div class="check-item"><i class="bi bi-check-circle-fill check-icon"></i><span>데일리 노트 바로가기 연동</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== FEATURE 2: 실시간 기록 ===== -->
+        <section class="feature-section" style="background:var(--bg-secondary)">
+            <div class="feature-row feature-row-reverse">
+                <div class="reveal-up feature-text">
+                    <div class="section-label">실시간 동기화</div>
+                    <div class="section-divider"></div>
+                    <h2 class="feature-title">동시에 기록해도<br/>놓치지 않는다</h2>
+                    <p class="feature-desc">
+                        특수학급이나 치료실에서는 여러 선생님이 같은 학생을 동시에 관찰합니다.
+                        한 명이 기록하면 나머지 선생님 화면에도 즉시 반영되어
+                        중복 기록 없이 팀 전체가 정확한 데이터를 공유합니다.
+                    </p>
+                    <div class="check-list">
+                        <div class="check-item"><i class="bi bi-check-circle-fill check-icon"></i><span>다중 사용자 동시 기록 지원</span></div>
+                        <div class="check-item"><i class="bi bi-check-circle-fill check-icon"></i><span>밀리초 단위 타임스탬프 자동 저장</span></div>
+                        <div class="check-item"><i class="bi bi-check-circle-fill check-icon"></i><span>오프라인 기록 후 자동 동기화</span></div>
+                        <div class="check-item"><i class="bi bi-check-circle-fill check-icon"></i><span>기록 발생 즉시 화면 업데이트</span></div>
+                    </div>
+                </div>
+                <div class="reveal-up" style="display:flex;justify-content:center">
+                    <div class="phone-frame"><img src="./assets/images/screen-record.jpeg" alt="행동기록 화면" /></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== FEATURE 3: 버튼 커스텀 ===== -->
+        <section class="feature-section">
+            <div class="feature-row">
+                <div class="reveal-up" style="display:flex;justify-content:center">
+                    <div class="phone-frame"><img src="./assets/images/screen-buttons.jpeg" alt="버튼 배치 화면" /></div>
+                </div>
+                <div class="reveal-up feature-text">
+                    <div class="section-label">커스텀 버튼</div>
+                    <div class="section-divider"></div>
+                    <h2 class="feature-title">현장에서 쓰는 방식대로,<br/>빠르게</h2>
+                    <p class="feature-desc">
+                        기록 버튼은 학생마다 다르게 구성할 수 있습니다.
+                        수업 중 행동이 발생하는 즉시 해당 버튼을 탭하면 기록 완료.
+                        컬러 코딩으로 빠르게 구분하고, 배치는 미리보기로 확인합니다.
+                    </p>
+                    <div class="check-list">
+                        <div class="check-item"><i class="bi bi-check-circle-fill check-icon"></i><span>학생별 개인화 버튼 배치</span></div>
+                        <div class="check-item"><i class="bi bi-check-circle-fill check-icon"></i><span>컬러 코딩으로 직관적 구분</span></div>
+                        <div class="check-item"><i class="bi bi-check-circle-fill check-icon"></i><span>저장 전 미리보기 확인</span></div>
+                        <div class="check-item"><i class="bi bi-check-circle-fill check-icon"></i><span>탭 한 번으로 즉시 기록</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== ABC 모델 ===== -->
+        <section id="abc" class="feature-section" style="background:var(--bg-secondary)">
+            <div class="reveal-up" style="display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:56px;text-align:center">
+                <div class="section-label">행동 분석</div>
+                <div class="section-divider"></div>
+                <h2 style="color:white;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;margin:0">ABC 모델로 분석합니다</h2>
+                <p style="color:var(--text-secondary);max-width:520px;line-height:1.7;margin:0">
+                    응용행동분석(ABA)의 핵심인 ABC 모델을 기반으로 합니다.
+                    행동을 단순히 기록하는 것을 넘어, 왜 발생하는지를 파악합니다.
+                </p>
+            </div>
+            <div style="display:flex;gap:0;width:100%;max-width:860px;flex-wrap:wrap" class="reveal-up">
+                <div class="abc-card" style="background:linear-gradient(135deg,#2D2060,#1E2435);border-radius:20px 0 0 20px">
+                    <div class="abc-letter">A</div>
+                    <h3 class="abc-title">Antecedent<br/><span style="font-size:0.9rem;font-weight:400;color:var(--text-secondary)">선행사건</span></h3>
+                    <p class="abc-desc">행동이 발생하기 전 상황. 어떤 환경·자극이 행동을 유발했는지 기록합니다.</p>
+                    <div class="abc-example">예: 식사시간, 과제 제시, 또래와의 상호작용</div>
+                </div>
+                <div class="abc-card" style="background:linear-gradient(135deg,#1E3A6E,#1E2435)">
+                    <div class="abc-letter">B</div>
+                    <h3 class="abc-title">Behavior<br/><span style="font-size:0.9rem;font-weight:400;color:var(--text-secondary)">행동</span></h3>
+                    <p class="abc-desc">관찰 가능하고 측정 가능한 행동 자체. 빈도·강도·지속시간을 기록합니다.</p>
+                    <div class="abc-example">예: 머리 때리기, 소리 지르기, 복도 달려가기</div>
+                </div>
+                <div class="abc-card" style="background:linear-gradient(135deg,#1E3D2F,#1E2435);border-radius:0 20px 20px 0">
+                    <div class="abc-letter">C</div>
+                    <h3 class="abc-title">Consequence<br/><span style="font-size:0.9rem;font-weight:400;color:var(--text-secondary)">후속결과</span></h3>
+                    <p class="abc-desc">행동 직후에 발생한 결과. 어떤 반응이 행동을 강화 또는 감소시키는지 파악합니다.</p>
+                    <div class="abc-example">예: 교사 개입, 활동 중단, 관심 제공</div>
+                </div>
+            </div>
+            <p class="reveal-up" style="color:var(--text-secondary);margin-top:32px;text-align:center;font-size:0.95rem;max-width:500px;line-height:1.7">
+                Will-Be의 데일리 노트는 ABC 구조를 기반으로 설계되어<br/>
+                기록이 곧 분석 데이터가 됩니다.
+            </p>
+        </section>
+
+        <!-- ===== 전체 기능 목록 ===== -->
+        <section id="how-it-works" class="feature-section">
+            <div class="reveal-up" style="display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:56px;text-align:center">
+                <div class="section-label">전체 기능</div>
+                <div class="section-divider"></div>
+                <h2 style="color:white;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;margin:0">기록에만 집중할 수 있도록</h2>
+            </div>
+            <div class="cards-grid">
+                <div class="feature-card reveal-up">
+                    <div class="feature-icon"><i class="bi bi-lightning-charge-fill"></i></div>
+                    <h3 class="card-title">실시간 행동 기록</h3>
+                    <p class="card-desc">행동 발생 즉시 버튼 하나로 기록. 타임스탬프와 담당자가 자동으로 저장됩니다.</p>
+                </div>
+                <div class="feature-card reveal-up">
+                    <div class="feature-icon"><i class="bi bi-people-fill"></i></div>
+                    <h3 class="card-title">팀 동시 기록</h3>
+                    <p class="card-desc">여러 선생님이 같은 학생을 동시에 관찰하며 기록해도 실시간으로 통합됩니다.</p>
+                </div>
+                <div class="feature-card reveal-up">
+                    <div class="feature-icon"><i class="bi bi-bar-chart-line-fill"></i></div>
+                    <h3 class="card-title">행동 빈도 분석</h3>
+                    <p class="card-desc">일별·주별 행동 빈도를 차트로 시각화해 중재 효과와 행동 변화 추세를 파악합니다.</p>
+                </div>
+                <div class="feature-card reveal-up">
+                    <div class="feature-icon"><i class="bi bi-journal-text"></i></div>
+                    <h3 class="card-title">데일리 노트</h3>
+                    <p class="card-desc">매일의 관찰 내용을 ABC 구조로 기록합니다. 날짜별 히스토리가 자동으로 누적됩니다.</p>
+                </div>
+                <div class="feature-card reveal-up">
+                    <div class="feature-icon"><i class="bi bi-grid-3x3-gap-fill"></i></div>
+                    <h3 class="card-title">커스텀 버튼 배치</h3>
+                    <p class="card-desc">학생별로 자주 기록하는 행동을 버튼으로 등록해 수업 중 빠르게 기록합니다.</p>
+                </div>
+                <div class="feature-card reveal-up">
+                    <div class="feature-icon"><i class="bi bi-shield-lock-fill"></i></div>
+                    <h3 class="card-title">역할 기반 접근 제어</h3>
+                    <p class="card-desc">선생님·도우미 역할을 구분해 접근 권한을 관리합니다. 아동 정보를 안전하게 보호합니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== CTA ===== -->
+        <section id="about" class="feature-section" style="text-align:center;position:relative;background:var(--bg-secondary)">
+            <div class="hero-glow" style="top:-50px;left:50%;transform:translateX(-50%)"></div>
+            <div class="reveal-up" style="display:flex;flex-direction:column;align-items:center;gap:20px;position:relative">
+                <div class="badge-tag">개인 프로젝트 · 포트폴리오</div>
+                <h2 style="color:white;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;margin:0">
+                    설계부터 배포까지, 직접 만들었습니다
+                </h2>
+                <p style="color:var(--text-secondary);max-width:520px;line-height:1.7;font-size:1.05rem;margin:0">
+                    Flutter 앱, Spring Boot 3 기반 MSA 백엔드, Kubernetes 배포까지
+                    풀스택으로 직접 구현한 개인 프로젝트입니다.
+                    공통 라이브러리는 GitHub Packages를 통해 버전 관리하고 있습니다.
+                </p>
+                <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:8px">
+                    <a href="https://github.com/gihongjo" target="_blank" rel="noopener" class="btn-primary">
+                        <i class="bi bi-github"></i>GitHub 보기
+                    </a>
+                    <a href="#features" class="btn-outline">기능 살펴보기</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== FOOTER ===== -->
+        <footer style="display:flex;justify-content:space-around;gap:24px;padding:5% 10%;border-top:1px solid rgba(255,255,255,0.06);flex-wrap:wrap">
+            <div style="display:flex;flex-direction:column;gap:16px;max-width:220px">
+                <div style="display:flex;align-items:center;gap:8px">
+                    <div style="width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                        <span style="color:white;font-weight:700;font-size:12px">W</span>
+                    </div>
+                    <span style="color:white;font-weight:600">Will-Be</span>
+                </div>
+                <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.6;margin:0">
+                    특수교육·ABA 치료 현장을 위한<br/>학생 행동 기록 전문 앱
+                </p>
+                <div style="display:flex;gap:16px;font-size:1.2rem">
+                    <a href="https://github.com/gihongjo" target="_blank" rel="noopener" class="footer-link" aria-label="GitHub">
+                        <i class="bi bi-github"></i>
+                    </a>
+                </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:16px">
+                <h3 style="color:white;font-size:1rem;font-weight:600;margin:0">링크</h3>
+                <div style="display:flex;flex-direction:column;gap:10px;font-size:0.9rem">
+                    <a href="#for-who" class="footer-link">대상</a>
+                    <a href="#features" class="footer-link">기능 소개</a>
+                    <a href="#abc" class="footer-link">ABC 모델</a>
+                    <a href="https://github.com/gihongjo" target="_blank" rel="noopener" class="footer-link">GitHub</a>
+                </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:16px">
+                <h3 style="color:white;font-size:1rem;font-weight:600;margin:0">도메인</h3>
+                <div style="display:flex;flex-direction:column;gap:8px;font-size:0.9rem;color:var(--text-secondary)">
+                    <span>특수교육 · ABA 치료</span>
+                    <span>행동 중재 · IEP 지원</span>
+                    <span>팀 기반 행동 데이터 수집</span>
+                </div>
+            </div>
+        </footer>
+
+        <div style="padding:16px;text-align:center;font-size:0.8rem;color:var(--text-secondary);border-top:1px solid rgba(255,255,255,0.04);background:var(--bg-primary)">
+            © 2026 Will-Be · Gihong Jo
+        </div>
+
+    </body>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/gsap.min.js"
+        integrity="sha512-B1lby8cGcAUU3GR+Fd809/ZxgHbfwJMp0jLTVfHiArTuUt++VqSlJpaJvhNtRf3NERaxDNmmxkdx2o+aHd4bvw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/ScrollTrigger.min.js"
+        integrity="sha512-AY2+JxnBETJ0wcXnLPCcZJIJx0eimyhz3OJ55k2Jx4RtYC+XdIi2VtJQ+tP3BaTst4otlGG1TtPJ9fKrAUnRdQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        const modal = document.getElementById('coming-soon-modal')
+        function openModal() { modal.style.display = 'flex'; document.body.style.overflow = 'hidden' }
+        function closeModal() { modal.style.display = 'none'; document.body.style.overflow = '' }
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal() })
+
+        const RESPONSIVE_WIDTH = 1024
+        let isHeaderCollapsed = window.innerWidth < RESPONSIVE_WIDTH
+        const collapseBtn = document.getElementById('collapse-btn')
+        const collapseHeaderItems = document.getElementById('collapsed-header-items')
+
+        function onHeaderClickOutside(e) {
+            if (!collapseHeaderItems.contains(e.target)) toggleHeader()
+        }
+        function toggleHeader() {
+            if (isHeaderCollapsed) {
+                collapseHeaderItems.classList.add('opacity-100')
+                collapseHeaderItems.style.width = '60vw'
+                collapseBtn.classList.replace('bi-list', 'bi-x')
+                isHeaderCollapsed = false
+                setTimeout(() => window.addEventListener('click', onHeaderClickOutside), 1)
+            } else {
+                collapseHeaderItems.classList.remove('opacity-100')
+                collapseHeaderItems.style.width = '0vw'
+                collapseBtn.classList.replace('bi-x', 'bi-list')
+                isHeaderCollapsed = true
+                window.removeEventListener('click', onHeaderClickOutside)
+            }
+        }
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > RESPONSIVE_WIDTH) collapseHeaderItems.style.width = ''
+            else isHeaderCollapsed = true
+        })
+
+        gsap.registerPlugin(ScrollTrigger)
+        gsap.set('.reveal-hero-text', { opacity: 0, y: 40 })
+        gsap.set('.reveal-hero-img', { opacity: 0, y: 40 })
+        window.addEventListener('load', () => {
+            gsap.to('.reveal-hero-text', { opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: 'power2.out' })
+            gsap.to('.reveal-hero-img', { opacity: 1, y: 0, duration: 0.9, delay: 0.3, ease: 'power2.out' })
+        })
+        gsap.utils.toArray('.reveal-up').forEach(el => {
+            gsap.fromTo(el,
+                { opacity: 0, y: 50 },
+                { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
+                  scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' } }
+            )
+        })
+    </script>
+
+    <style>
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .abc-card {
+            flex: 1; min-width: 220px; padding: 32px 24px;
+            display: flex; flex-direction: column; gap: 14px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .abc-letter {
+            font-size: 2.8rem; font-weight: 900; color: var(--accent-light); line-height: 1;
+        }
+        .abc-title {
+            color: white; font-size: 1.1rem; font-weight: 700; margin: 0; line-height: 1.4;
+        }
+        .abc-desc {
+            color: var(--text-secondary); font-size: 0.9rem; line-height: 1.65; margin: 0;
+        }
+        .abc-example {
+            font-size: 0.82rem; color: rgba(255,255,255,0.35);
+            border-top: 1px solid rgba(255,255,255,0.06); padding-top: 12px; line-height: 1.5;
+        }
+        @media (max-width: 768px) {
+            .abc-card:first-child { border-radius: 20px 20px 0 0 !important; }
+            .abc-card:last-child  { border-radius: 0 0 20px 20px !important; }
+            .for-who-grid { grid-template-columns: 1fr !important; }
+        }
+    </style>
+</html>
