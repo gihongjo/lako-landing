@@ -369,6 +369,19 @@ header > .collapsible-header {
     font-weight: 500;
 }
 
+/* ---- Hero phone frame (larger size with responsive) ---- */
+.phone-frame-hero {
+    width: 320px !important;
+    height: 693px !important;
+}
+
+@media (max-width: 640px) {
+    .phone-frame-hero {
+        width: 240px !important;
+        height: 520px !important;
+    }
+}
+
 @media not all and (min-width: 1024px) {
     header .collapsible-header {
         position: fixed;
